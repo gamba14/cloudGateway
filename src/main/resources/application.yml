@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: apiGateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://keycloak.morlax.com.ar/auth/realms/Users
+          jwk-set-uri: https://keycloak.morlax.com.ar/auth/realms/Users/protocol/openid-connect/certs
+  #      client:
+  #        provider:
+  #          keycloak:
+  #            issuer-uri: https://keycloak.morlax.com.ar/auth/realms/Users
+  #            user-name-attribute: preferred_username
+  #        registration:
+  #          keycloak:
+  #            client-id: petseeker
+  #            client-secret: f94cda3d-9392-41df-be62-cb3b327f19f1
+  cloud:
+    gateway:
+#      default-filters:
+#        - TokenRelay
+      routes:
+        - id: testRoute
+          uri: https://httpbin.org
+          predicates:
+            - Path=/get
+            - Method=GET
+#          filters:
+#            - TokenRelay=
+#            - RemoveRequestHeader=Cookie
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+server:
+  port: 8080
